@@ -10,6 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "hubot": "^11.3.2",
-    "hubot-traq": "^1.3.4"
+    "hubot-traq": "^1.8.3"
   }
 }
