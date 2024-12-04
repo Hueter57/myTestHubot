@@ -1,0 +1,15 @@
+{
+  "name": "traqbotnodejs",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "hubot",
+    "test": "node --test"
+  },
+  "author": "Hueter",
+  "license": "ISC",
+  "dependencies": {
+    "hubot": "^11.3.2",
+    "hubot-traq": "^1.3.4"
+  }
+}
