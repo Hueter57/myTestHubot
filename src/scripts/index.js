@@ -5,7 +5,7 @@
 "use strict";
 
 module.exports = async robot => {
-    robot.respond(/ping$/i, res => {
-        res.reply("pong");
+    robot.respond(/hello$/i, res => {
+        res.reply("fuck");
     });
 };
