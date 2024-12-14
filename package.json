@@ -1,6 +1,7 @@
 {
   "name": "traqbotnodejs",
-  "version": "1.0.0",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
     "start": "hubot -a hubot-traq -n \"$HUBOT_TRAQ_NAME\" \"$@\""
   },
@@ -10,6 +11,6 @@
     "hubot-traq": "^1.8.3"
   },
   "engines": {
-    "node": ">= 18.0.0"
+    "node": "0.10.x"
   }
 }
