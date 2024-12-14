@@ -1,11 +1,14 @@
 {
   "name": "traqbotnodejs",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "hubot -a hubot-traq -n \"$HUBOT_TRAQ_NAME\" \"$@\""
   },
   "author": "Hueter",
+
+  "description": "test",
+
   "dependencies": {
     "hubot": "^11.3.2",
     "hubot-traq": "^1.3.4"
