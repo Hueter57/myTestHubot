@@ -16,6 +16,6 @@
     "start:redis": "docker run -d --name redis-hubot -p 6379:6379 -p 8001:8001 -v redis-hubot:/data redis/redis-stack:latest redis-server --dir /data/redis/ --appendonly yes --protected-mode no"
   },
   "engines": {
-    "node": "0.10.1"
+    "node": "22.12.0"
   }
 }
