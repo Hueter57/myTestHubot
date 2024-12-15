@@ -2,9 +2,7 @@
   "name": "traqbotnodejs",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "start": "hubot -a hubot-traq -n \"$HUBOT_TRAQ_NAME\" \"$@\""
-  },
+
   "author": "Hueter",
 
   "description": "test",
@@ -13,7 +11,11 @@
     "hubot": "^11.3.2",
     "hubot-traq": "^1.3.4"
   },
+  "scripts": {
+    "start": "hubot -a hubot-traq -n \"$HUBOT_TRAQ_NAME\" \"$@\"",
+    "start:redis": "docker run -d --name redis-hubot -p 6379:6379 -p 8001:8001 -v redis-hubot:/data redis/redis-stack:latest redis-server --dir /data/redis/ --appendonly yes --protected-mode no"
+  },
   "engines": {
-    "nodejs": "20.5.0"
+    "node": "0.10.1"
   }
 }
