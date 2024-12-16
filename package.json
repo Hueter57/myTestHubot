@@ -1,11 +1,11 @@
 {
-  "name": "myTestHubot",
+  "name": "myhubot",
   "version": "1.0.0",
   "private": true,
 
   "author": "Hueter",
 
-  "description": "test",
+  "description": "test ot",
 
   "dependencies": {
     "hubot-traq": "*",
