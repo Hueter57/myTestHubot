@@ -1,21 +1,20 @@
 {
   "name": "myhubot",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "private": true,
 
   "author": "Hueter",
 
-  "description": "test ot",
+  "description": "test bot",
 
   "dependencies": {
-    "hubot-traq": "*",
+    "hubot-traq": "^2.0.0",
     "hubot": "^11.0.0"
   },
   "scripts": {
-    "start": "hubot -a hubot-traq -n \"$HUBOT_TRAQ_NAME\" \"$@\"",
-    "start:redis": "docker run -d --name redis-hubot -p 6379:6379 -p 8001:8001 -v redis-hubot:/data redis/redis-stack:latest redis-server --dir /data/redis/ --appendonly yes --protected-mode no"
+    "start": "hubot -a hubot-traq -n \"$HUBOT_TRAQ_NAME\" \"$@\""
   },
   "engines": {
-    "node": ">= 18.0.0"
+    "node": ">= 20.x"
   }
 }
