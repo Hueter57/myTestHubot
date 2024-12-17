@@ -12,12 +12,6 @@
 
 export default async robot => {
 
-  robot.respond(/hoge$/i, res => {
-    res.reply("fuga");
-  });
-  robot.respond(/ping$/i, res => {
-    res.reply("pong");
-  });
   // robot.hear(/badger/i, async (res) => {
   //   await res.send('Badgers? BADGERS? WE DON’T NEED NO STINKIN BADGERS')
   // })
