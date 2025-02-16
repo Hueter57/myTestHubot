@@ -12,7 +12,7 @@ export default async robot => {
   robot.respond(/ping$/i, res => {
     res.reply("pong");
   });
-  robot.respond(/send_Hueter$/i, res => {
+  robot.hear(/send_Hueter$/, res => {
     res.send(
       {
         type: "stamp",
