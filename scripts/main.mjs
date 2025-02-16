@@ -13,9 +13,9 @@ export default async robot => {
     res.reply("pong");
   });
   robot.respond(/send_Hueter$/i, res => {
-    res.send({ userID: "236fe853-f208-477b-9f1f-0f42fe614d3b" }, ":choo-choo-train-nya:");
+    robot.send({ userID: "236fe853-f208-477b-9f1f-0f42fe614d3b" }, ":choo-choo-train-nya:");
   });
   robot.respond(/send$/i, res => {
-    res.send({ channelID: "06a78616-4de5-4195-826d-ad834912e215" }, ":good-nya:");
+    robot.send({ channelID: "06a78616-4de5-4195-826d-ad834912e215" }, ":good-nya:");
   });
 }
