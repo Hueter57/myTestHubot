@@ -6,6 +6,9 @@
 //
 
 export default async robot => {
+
+  robot.send({ channelID: "06a78616-4de5-4195-826d-ad834912e215" }, ":done-nya:");
+
   robot.respond(/hoge$/i, res => {
     res.reply("fuga");
   });
