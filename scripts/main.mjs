@@ -47,4 +47,10 @@ export default async robot => {
       name: "hyun-nya"
     });
   });
+  robot.hear(/pu/, res => {
+    res.send({
+      type: "stamp",
+      name: "pu"
+    });
+  })
 }
