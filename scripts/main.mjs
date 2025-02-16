@@ -13,6 +13,18 @@ export default async robot => {
     res.reply("pong");
   });
   robot.respond(/send_Hueter$/i, res => {
+    res.send(
+      {
+        type: "stamp",
+        name: "done-nya"
+      }, {
+        type: "stamp",
+        name: "doya-nya"
+      }, {
+        type: "stamp",
+        name: "hyun-nya"
+      }
+    );
     robot.send({ userID: "236fe853-f208-477b-9f1f-0f42fe614d3b" }, ":choo-choo-train-nya:");
   });
   robot.respond(/send$/i, res => {
