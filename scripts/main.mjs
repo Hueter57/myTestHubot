@@ -47,9 +47,7 @@ export default async robot => {
       name: "pu"
     });
   });
-}
 
-module.exports = robot => {
   corn.schedule("* * * * *", () => {
     robot.send({ channelID: "06a78616-4de5-4195-826d-ad834912e215" }, ":3kaimitarashinu_beksinski_1:");
   });
