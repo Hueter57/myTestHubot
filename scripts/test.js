@@ -12,10 +12,14 @@ module.exports = async robot => {
   });
 
   robot.hear(/stamp/, res => {
-    res.send(
-      "stamp", {
-      type: "stamp",
-      name: "done-nya"
-    });
+    try {
+      res.send({
+        type: "stamp",
+        name: "waku"
+      });
+    } catch (error) {
+      res.send("error");
+      res.send(error);
+    }
   });
 }
