@@ -27,15 +27,12 @@ module.exports = robot => {
         }
       });
 
-      if (response.status === 204) {
+      if (response.statusText === 'OK') {
         res.send("get data");
+        console.log(response.data.data);
       } else {
         res.send(response.status);
       }
-      console.log("from here")
-      console.log(response);
-      console.log(typeof response);
-      res.send(response.status);
 
     } catch (error) {
       res.send("error");
@@ -53,8 +50,11 @@ module.exports = robot => {
         }
       });
 
-      if (response.status === 204) {
-
+      if (response.statusText === 'OK') {
+        console.log(response.data.data);
+        console.log(typeof response.data.data);
+      } else {
+        res.send(response.status);
       }
 
     } catch (error) {
