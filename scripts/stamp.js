@@ -1,19 +1,19 @@
 const axios = require('axios');
 
-interface GETStamp {
+// interface GETStamp {
 
-}
+// }
 
-type StampWithThumbnail = {
-  id: string;
-  name: string;
-  creatorId: string;
-  createdAt: string;
-  updatedAt: string;
-  fileId: string;
-  isUnicode: boolean;
-  hasThumbnail: boolean;
-}
+// type StampWithThumbnail = {
+//   id: string;
+//   name: string;
+//   creatorId: string;
+//   createdAt: string;
+//   updatedAt: string;
+//   fileId: string;
+//   isUnicode: boolean;
+//   hasThumbnail: boolean;
+// }
 
 
 module.exports = robot => {
