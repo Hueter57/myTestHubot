@@ -1,3 +1,4 @@
+const axios = require('axios');
 const BOT_ID_NAME = "HUBOT_TRAQ_BOT_ID";
 
 module.exports = robot => {
