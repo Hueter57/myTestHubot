@@ -42,7 +42,7 @@ module.exports = robot => {
     });
   });
 
-  corn.schedule("* * * * *", () => {
+  corn.schedule("0 0 7,12,18 * * *", () => {
     robot.send({ channelID: "06a78616-4de5-4195-826d-ad834912e215" }, ":3kaimitarashinu_beksinski_1:");
   });
 }
