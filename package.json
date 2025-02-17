@@ -2,14 +2,12 @@
   "name": "myhubot",
   "version": "0.0.0",
   "private": true,
-
   "author": "Hueter",
-
   "description": "test bot",
-
   "dependencies": {
+    "hubot": "^11.0.0",
     "hubot-traq": "^2.0.0",
-    "hubot": "^11.0.0"
+    "node-cron": "^3.0.3"
   },
   "scripts": {
     "start": "hubot -a hubot-traq -n \"$HUBOT_TRAQ_NAME\" \"$@\""
