@@ -5,7 +5,7 @@
 // Commands:
 //
 
-const corn = require("node-cron");
+import corn from "node-cron";
 
 export default async robot => {
 
