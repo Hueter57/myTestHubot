@@ -1,5 +1,21 @@
 const axios = require('axios');
 
+interface GETStamp {
+
+}
+
+type StampWithThumbnail = {
+  id: string;
+  name: string;
+  creatorId: string;
+  createdAt: string;
+  updatedAt: string;
+  fileId: string;
+  isUnicode: boolean;
+  hasThumbnail: boolean;
+}
+
+
 module.exports = robot => {
   robot.hear(/getAllStamp$/i, async res => {
 
@@ -16,7 +32,10 @@ module.exports = robot => {
       } else {
         res.send(response.status);
       }
+      console.log("from here")
       console.log(response);
+      console.log(typeof response);
+      res.send(response.status);
 
     } catch (error) {
       res.send("error");
