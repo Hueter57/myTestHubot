@@ -13,8 +13,11 @@ module.exports = robot => {
 
       if (response.status === 204) {
         res.send("get data");
-        console.log(response);
+      } else {
+        res.send(response.status);
       }
+      console.log(response);
+
     } catch (error) {
       res.send("error");
       console.error(error);
@@ -32,7 +35,7 @@ module.exports = robot => {
       });
 
       if (response.status === 204) {
-        
+
       }
 
     } catch (error) {
