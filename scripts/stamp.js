@@ -29,7 +29,7 @@ module.exports = robot => {
 
       if (response.statusText === 'OK') {
         res.send("get data");
-        console.log(response.data.data);
+        console.log(response[data]);
       } else {
         res.send(response.status);
       }
