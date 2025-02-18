@@ -8,12 +8,19 @@
     "axios": "^1.7.9",
     "hubot": "^11.0.0",
     "hubot-traq": "^2.0.0",
-    "node-cron": "^3.0.3"
+    "node-cron": "^3.0.3",
+    "typescript": "^3.9.5",
+    "@types/hubot": "^3.3.0"
   },
   "scripts": {
-    "start": "hubot -a hubot-traq -n \"$HUBOT_TRAQ_NAME\" \"$@\""
+    "start": "hubot -a hubot-traq -n \"$HUBOT_TRAQ_NAME\" \"$@\"",
+    "watch": "./node_modules/typescript/bin/tsc -w"
   },
   "engines": {
     "node": ">= 20.x"
+  },
+  "devDependencies": {
+    "@types/hubot": "^11.3.0",
+    "typescript": "^5.7.3"
   }
 }
