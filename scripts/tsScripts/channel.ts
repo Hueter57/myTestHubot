@@ -1,8 +1,15 @@
+// Description:
+//
+// Commands:
+//
+
+import hubot from "hubot";
+
 const axios = require('axios');
 const BOT_ID_NAME = "HUBOT_TRAQ_BOT_ID";
 
-module.exports = robot => {
-  robot.respond(/join$/i, async res => {
+module.exports = (robot: hubot.Robot): void => {
+  robot.respond(/join$/i, async (res: hubot.Response) => {
     console.log("join");
     const id = process.env[BOT_ID_NAME];
     if (res.message.room.type !== "channel") {
@@ -24,7 +31,7 @@ module.exports = robot => {
       if (response.status === 204) {
         res.send("joined");
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error.response && error.response.status === 404) {
         res.send(":doko:");
       } else {
@@ -34,7 +41,7 @@ module.exports = robot => {
     }
   });
 
-  robot.respond(/leave$/i, async res => {
+  robot.respond(/leave$/i, async (res: hubot.Response) => {
     console.log("leave");
     const id = process.env[BOT_ID_NAME];
     if (res.message.room.type !== "channel") {
@@ -56,7 +63,7 @@ module.exports = robot => {
       if (response.status === 204) {
         res.send("leaved");
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error.response && error.response.status === 404) {
         res.send(":doko:");
       } else {
