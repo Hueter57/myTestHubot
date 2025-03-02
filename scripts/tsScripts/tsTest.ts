@@ -19,7 +19,7 @@ module.exports = (robot: hubot.Robot): void => {
   robot.hear(/hoge$/i, async (res: hubot.Response): Promise<void> => {
     await res.reply("fuga");
     api.getStamps().then(res => {
-      console.log(res.data.toString);
+      console.log(res.data.toString());
     });
   });
 };
