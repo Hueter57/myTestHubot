@@ -58,5 +58,8 @@ module.exports = (robot: hubot.Robot): void => {
 
   corn.schedule("0 0 7,12,18 * * *", () => {
     robot.send(myLogChannel, ":3kaimitarashinu_beksinski_1:");
+  },{ 
+    Scheduled : true , 
+    timezone : "Asia/Tokyo" 
   });
 };
