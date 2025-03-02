@@ -15,7 +15,10 @@ module.exports = (robot) => {
     robot.hear(/hoge$/i, async (res) => {
         await res.reply("fuga");
         api.getStamps().then(res => {
-            console.log(res.data.toString());
+            console.log(res.data);
+            console.log(typeof res.data);
+            console.log(JSON.stringify(res.data));
+            console.log(JSON.stringify(res.data).toString());
         });
     });
 };
