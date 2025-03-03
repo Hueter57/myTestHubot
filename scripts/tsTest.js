@@ -14,10 +14,5 @@ module.exports = (robot) => {
     });
     robot.hear(/hoge$/i, async (res) => {
         await res.reply("fuga");
-        api.getStamps().then(res => {
-            res.data.forEach(stampData => {
-                console.log(stampData.name + ":" + stampData.id);
-            });
-        });
     });
 };
