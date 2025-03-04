@@ -10,7 +10,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const WRITER_REGEXP = /@[a-zA-Z0-9_-]+/g;
 const axios_1 = __importDefault(require("axios"));
 module.exports = (robot) => {
-    robot.hear(/getCrowi$/i, async (res) => {
+    robot.hear(/getCrowi$/i, (res) => {
         const crowiPagePath = process.env.CROWI_PAGE_PATH;
         const crowiToken = process.env.CROWI_ACCESS_TOKEN;
         if (crowiPagePath === undefined || crowiToken === undefined) {
@@ -18,7 +18,7 @@ module.exports = (robot) => {
             console.log("crowi envs are undefined");
             return;
         }
-        const body = await getCrowiPageBody({
+        const body = getCrowiPageBody({
             host: "wiki.trap.jp",
             pagePath: crowiPagePath,
             token: crowiToken,

@@ -24,7 +24,7 @@ type CrowiGetPageResponse = {
 };
 
 module.exports = (robot: hubot.Robot): void => {
-  robot.hear(/getCrowi$/i, async (res: hubot.Response): Promise<void> => {
+  robot.hear(/getCrowi$/i, (res: hubot.Response): void => {
     const crowiPagePath = process.env.CROWI_PAGE_PATH;
     const crowiToken = process.env.CROWI_ACCESS_TOKEN;
     if (crowiPagePath === undefined || crowiToken === undefined) {
@@ -32,7 +32,7 @@ module.exports = (robot: hubot.Robot): void => {
       console.log("crowi envs are undefined");
       return;
     }
-    const body = await getCrowiPageBody({
+    const body = getCrowiPageBody({
       host: "wiki.trap.jp",
       pagePath: crowiPagePath,
       token: crowiToken,
