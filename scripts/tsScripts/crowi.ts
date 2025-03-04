@@ -56,9 +56,10 @@ function getCrowiPageBody({ host, pagePath, token }: CrowiInfo): string {
       console.log("status:" + status);
       console.log("data:" + data);
       console.log("data:" + data["page"]);
-      console.log("data:" + data.page);
+      console.log(data.page);
+      console.log(data);
       if (data.ok) {
-        return data["page"]["revision"]["body"];
+        return data["page"]["revision"]["body"] as string;
       } else {
         console.log("data.ok is false");
         return "";
