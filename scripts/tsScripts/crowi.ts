@@ -37,7 +37,7 @@ function getCrowiPageBody({ host, pagePath, token }: CrowiInfo): string {
   const encodedPath = encodeURI(pagePath);
   const url = `https://${host}/_api/pages.get?access_token=${token}&path=${encodedPath}`;
   const res = axios.get(url);
-  const payload = JSON.parse(res.getContentText());
+  // const payload = JSON.parse(res.getContentText());
   // eslint-disable-next-line @typescript-eslint/dot-notation
-  return payload["page"]["revision"]["body"] as string;
+  return res as string;
 }

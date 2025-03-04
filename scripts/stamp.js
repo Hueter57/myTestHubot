@@ -8,7 +8,6 @@ const traq_1 = require("@traptitech/traq");
 const api = new traq_1.Apis(new traq_1.Configuration({
     accessToken: process.env.HUBOT_TRAQ_ACCESS_TOKEN,
 }));
-const axios = require("axios");
 module.exports = (robot) => {
     robot.hear(/getAllStamp$/i, async (res) => {
         try {

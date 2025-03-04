@@ -13,7 +13,6 @@ const api = new Apis(
   })
 );
 
-const axios = require("axios");
 
 module.exports = (robot: hubot.Robot): void => {
   robot.hear(/getAllStamp$/i, async (res: hubot.Response) => {
