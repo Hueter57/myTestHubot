@@ -18,7 +18,7 @@ module.exports = (robot) => {
             console.log("crowi envs are undefined");
             return;
         }
-        const body = getCrowiPageBody({
+        const body = await getCrowiPageBody({
             host: "wiki.trap.jp",
             pagePath: crowiPagePath,
             token: crowiToken,

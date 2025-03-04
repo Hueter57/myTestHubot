@@ -32,7 +32,7 @@ module.exports = (robot: hubot.Robot): void => {
       console.log("crowi envs are undefined");
       return;
     }
-    const body = getCrowiPageBody({
+    const body = await getCrowiPageBody({
       host: "wiki.trap.jp",
       pagePath: crowiPagePath,
       token: crowiToken,
