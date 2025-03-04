@@ -23,7 +23,9 @@ module.exports = (robot) => {
             pagePath: crowiPagePath,
             token: crowiToken,
         });
-        // res.send(body);
+        if (body === "") {
+            return;
+        }
         console.log(body);
     });
 };
@@ -36,16 +38,18 @@ function getCrowiPageBody({ host, pagePath, token }) {
     (0, axios_1.default)(options)
         .then((res) => {
         const { data, status } = res;
-        console.log(data);
-        console.log(data.toString());
-        console.log(status.toString());
-        console.log(status);
-        return data;
+        console.log("status:" + status);
+        if (data.ok) {
+            return data.page.revision.body;
+        }
+        else {
+            console.log("data.ok is false");
+            return "";
+        }
     })
         .catch((e) => {
         console.log(e.message);
-        return e;
+        return "";
     });
-    // const payload = JSON.parse(res.getContentText());
-    // eslint-disable-next-line @typescript-eslint/dot-notation
+    return "";
 }

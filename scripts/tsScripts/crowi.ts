@@ -14,6 +14,15 @@ type CrowiInfo = {
   token: string;
 };
 
+type CrowiGetPageResponse = {
+  page: {
+    revision: {
+      body: string;
+    };
+  };
+  ok: boolean;
+};
+
 module.exports = (robot: hubot.Robot): void => {
   robot.hear(/getCrowi$/i, async (res: hubot.Response): Promise<void> => {
     const crowiPagePath = process.env.CROWI_PAGE_PATH;
@@ -28,30 +37,33 @@ module.exports = (robot: hubot.Robot): void => {
       pagePath: crowiPagePath,
       token: crowiToken,
     });
-    res.send(body);
+    if (body === "") {
+      return;
+    }
     console.log(body);
   });
 };
 
-function getCrowiPageBody({ host, pagePath, token }: CrowiInfo): any {
+function getCrowiPageBody({ host, pagePath, token }: CrowiInfo): string {
   const encodedPath = encodeURI(pagePath);
   const options: AxiosRequestConfig = {
     url: `https://${host}/_api/pages.get?access_token=${token}&path=${encodedPath}`,
     method: "GET",
   };
   axios(options)
-    .then((res: AxiosResponse<string>) => {
+    .then((res: AxiosResponse<CrowiGetPageResponse>) => {
       const { data, status } = res;
-      console.log(data);
-      console.log(data.toString());
-      console.log(status.toString());
-      console.log(status);
-      return data;
+      console.log("status:" + status);
+      if (data.ok) {
+        return data.page.revision.body;
+      } else {
+        console.log("data.ok is false");
+        return "";
+      }
     })
     .catch((e: AxiosError<{ error: string }>) => {
       console.log(e.message);
-      return e;
+      return "";
     });
-  // const payload = JSON.parse(res.getContentText());
-  // eslint-disable-next-line @typescript-eslint/dot-notation
+  return "";
 }
