@@ -23,6 +23,7 @@ module.exports = (robot) => {
             pagePath: crowiPagePath,
             token: crowiToken,
         });
+        console.log("aaaaaa");
         console.log(body);
         if (body === "") {
             return;
@@ -44,7 +45,7 @@ function getCrowiPageBody({ host, pagePath, token }) {
         console.log(data.page);
         console.log(data);
         if (data.ok) {
-            return data["page"]["revision"]["body"];
+            return data.page.revision.body;
         }
         else {
             console.log("data.ok is false");

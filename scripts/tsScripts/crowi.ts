@@ -37,6 +37,7 @@ module.exports = (robot: hubot.Robot): void => {
       pagePath: crowiPagePath,
       token: crowiToken,
     });
+    console.log("aaaaaa")
     console.log(body);
     if (body === "") {
       return;
@@ -59,7 +60,7 @@ function getCrowiPageBody({ host, pagePath, token }: CrowiInfo): string {
       console.log(data.page);
       console.log(data);
       if (data.ok) {
-        return data["page"]["revision"]["body"] as string;
+        return data.page.revision.body as string;
       } else {
         console.log("data.ok is false");
         return "";
