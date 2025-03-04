@@ -51,12 +51,14 @@ function getCrowiPageBody({ host, pagePath, token }: CrowiInfo): string {
     method: "GET",
   };
   axios(options)
-    .then((res: AxiosResponse<CrowiGetPageResponse>) => {
+    .then((res: AxiosResponse<any>) => {
       const { data, status } = res;
       console.log("status:" + status);
       console.log("data:" + data);
+      console.log("data:" + data["page"]);
+      console.log("data:" + data.page);
       if (data.ok) {
-        return data.page.revision.body;
+        return data["page"]["revision"]["body"];
       } else {
         console.log("data.ok is false");
         return "";
