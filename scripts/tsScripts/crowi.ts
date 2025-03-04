@@ -54,6 +54,7 @@ function getCrowiPageBody({ host, pagePath, token }: CrowiInfo): string {
     .then((res: AxiosResponse<CrowiGetPageResponse>) => {
       const { data, status } = res;
       console.log("status:" + status);
+      console.log("data:" + data);
       if (data.ok) {
         return data.page.revision.body;
       } else {
