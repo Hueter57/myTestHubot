@@ -7,11 +7,35 @@ const WRITER_REGEXP = /@[a-zA-Z0-9_-]+/g;
 
 import hubot from "hubot";
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
+const myLogChannel = {
+  channelID: "06a78616-4de5-4195-826d-ad834912e215",
+} as any;
 
 type CrowiInfo = {
   host: string;
   pagePath: string;
   token: string;
+};
+
+type traQInfo = {
+  channelId: string;
+  logChannelId: string;
+  buriChannelPath: string;
+  reviewChannelPath: string;
+  traqBotToken: string;
+};
+
+type BlogRelayInfo = {
+  tag: string;
+  title: string;
+  startDate: string;
+};
+
+type InitResult = {
+  crowi: CrowiInfo;
+  traQ: traQInfo;
+  blogRelay: BlogRelayInfo;
+  noticeMessage: string;
 };
 
 type CrowiGetPageResponse = {
@@ -23,37 +47,21 @@ type CrowiGetPageResponse = {
   ok: boolean;
 };
 
+console.log("testest");
 module.exports = (robot: hubot.Robot): void => {
   robot.hear(/getCrowi$/i, async (res: hubot.Response): Promise<void> => {
-    const crowiPagePath = process.env.CROWI_PAGE_PATH;
-    const crowiToken = process.env.CROWI_ACCESS_TOKEN;
-    const blogTitle = process.env.TITLE;
-    const startDate = process.env.START_DATE;
-    const noticeMessage = `
-## 注意事項
-- \`po\`のタグをつけてください
-- 記事の初めにブログリレー何日目の記事かを明記してください
-- 記事の最後に次の日の担当者を紹介してください
-- **post imageを設定して**ください
-- わからないことがあれば気軽に ore まで
-- 記事内容の添削や相談は、気軽に kare へ
-- 詳細は nai`;
-    if (
-      crowiPagePath === undefined ||
-      crowiToken === undefined ||
-      blogTitle === undefined ||
-      startDate === undefined
-    ) {
-      res.send("crowi envs are undefined");
-      console.log("crowi envs are undefined");
+    const v = init();
+    if (v === null) {
+      console.log("init failed");
       return;
     }
+    const { crowi, traQ, blogRelay, noticeMessage } = v;
 
     try {
       const pageBody = await getCrowiPageBody({
         host: "wiki.trap.jp",
-        pagePath: crowiPagePath,
-        token: crowiToken,
+        pagePath: crowi.pagePath,
+        token: crowi.token,
       } as CrowiInfo);
       if (pageBody === "") {
         console.log("failed get crowi page body");
@@ -61,19 +69,89 @@ module.exports = (robot: hubot.Robot): void => {
         return;
       }
       const schedules = extractSchedule(pageBody);
-      const dateDiff = calcDateDiff(startDate);
+      const dateDiff = calcDateDiff(blogRelay);
       const messageHead =
         dateDiff < 0
-          ? getBeforeMessage(blogTitle, -dateDiff)
-          : getDuringMessage(blogTitle, dateDiff, schedules);
+          ? getBeforeMessage(blogRelay.title, -dateDiff)
+          : getDuringMessage(blogRelay.title, dateDiff, schedules);
 
-      // res.send(messageHead + noticeMessage)
+      res.send(myLogChannel, messageHead + noticeMessage);
       console.log(messageHead + noticeMessage);
+      const logMessage = schedulesToCalendar(blogRelay, schedules);
+      res.send(myLogChannel, logMessage);
+      console.log(logMessage);
     } catch (error) {
       console.error("Error fetching Crowi page:", error);
     }
   });
 };
+
+function init(): InitResult | null {
+  const crowiHost = process.env.CROWI_HOST;
+  const crowiPath = process.env.CROWI_PAGE_PATH;
+  const crowiToken = process.env.CROWI_ACCESS_TOKEN;
+  if (
+    crowiHost === undefined ||
+    crowiPath === undefined ||
+    crowiToken === undefined
+  ) {
+    return null;
+  }
+  const traQChannelId = process.env.TRAQ_CHANNEL_ID;
+  const traQLogChannelId = process.env.TRAQ_LOG_CHANNEL_ID;
+  const traQBuriChannelPath = process.env.TRAQ_BURI_CHANNEL_PATH;
+  const traQReviewChannelPath = process.env.TRAQ_REVIEW_CHANNEL_PATH;
+  const traQBotToken = process.env.TRAQ_BOT_ACCESS_TOKEN;
+  if (
+    traQChannelId === undefined ||
+    traQLogChannelId === undefined ||
+    traQBuriChannelPath === undefined ||
+    traQReviewChannelPath === undefined ||
+    traQBotToken === undefined
+  ) {
+    return null;
+  }
+  const blogRelayTag = process.env.TAG;
+  const blogRelayTitle = process.env.TITLE;
+  const blogRelayStartDate = process.env.START_DATE;
+  if (
+    blogRelayTag === undefined ||
+    blogRelayTitle === undefined ||
+    blogRelayStartDate === undefined
+  ) {
+    return null;
+  }
+  const url = `https://${crowiHost}${crowiPath}`;
+  const noticeMessage = `
+## 注意事項
+- \`${blogRelayTag}\`のタグをつけてください
+- 記事の初めにブログリレー何日目の記事かを明記してください
+- 記事の最後に次の日の担当者を紹介してください
+- **post imageを設定して**ください
+- わからないことがあれば気軽に ${traQBuriChannelPath} まで
+- 記事内容の添削や相談は、気軽に ${traQReviewChannelPath} へ
+- 詳細は ${url}`;
+  return {
+    crowi: {
+      host: crowiHost,
+      pagePath: crowiPath,
+      token: crowiToken,
+    },
+    traQ: {
+      channelId: traQChannelId,
+      logChannelId: traQLogChannelId,
+      buriChannelPath: traQBuriChannelPath,
+      reviewChannelPath: traQReviewChannelPath,
+      traqBotToken: traQBotToken,
+    },
+    blogRelay: {
+      tag: blogRelayTag,
+      title: blogRelayTitle,
+      startDate: blogRelayStartDate,
+    },
+    noticeMessage,
+  };
+}
 
 async function getCrowiPageBody({
   host,
@@ -104,7 +182,7 @@ async function getCrowiPageBody({
 
 // START_DATEとの差分を取得する
 // now - date
-function calcDateDiff(startDate: string): number {
+function calcDateDiff({ startDate }: BlogRelayInfo): number {
   const date = new Date(startDate);
   const dateUtcTime = date.getTime() + date.getTimezoneOffset() * 60 * 1000;
   const now = new Date();
@@ -201,4 +279,75 @@ function schedulesToTable(schedules: Schedule[]): string {
 | 日付 | 日目 | 担当者 | タイトル(内容) |
 | :-: | :-: | :-: | :-- |
 ${schedules.map(scheduleToString).join("\n")}`;
+}
+
+function schedulesToCalendar(
+  blogRelayInfo: BlogRelayInfo,
+  schedules: Schedule[]
+): string {
+  const weeks: Array<Array<[Date, Schedule[]]>> = [];
+  let i = 0;
+  const scheduleLength = schedules.length;
+  const startDate = new Date(blogRelayInfo.startDate);
+  const calendarStartDate = dateOffset(startDate, -startDate.getDay());
+  while (i < scheduleLength) {
+    const week: Array<[Date, Schedule[]]> = [];
+    const weekStartDate = dateOffset(calendarStartDate, weeks.length * 7);
+    for (let weekDay = 0; weekDay < 7; weekDay++) {
+      const day: Schedule[] = [];
+      const date = dateOffset(weekStartDate, weekDay);
+      while (
+        i < scheduleLength &&
+        actualDateOfSchedule(blogRelayInfo, schedules[i]).getDay() === weekDay
+      ) {
+        day.push(schedules[i]);
+        i++;
+      }
+      week.push([date, day]);
+    }
+    weeks.push(week);
+  }
+  const calendarBody = weeks
+    .map((week) =>
+      week
+        .map((dayInfo) => {
+          const date = dayInfo[0];
+          const day = dayInfo[1];
+          const dateStr = `${date.getMonth() + 1}/${date.getDate()}`;
+          const dayStr = day
+            .map((schedule) => scheduleToStringInCalendar(schedule))
+            .join(" ");
+          return `**${dateStr}**${dayStr}`;
+        })
+        .join(" | ")
+    )
+    .join("\n");
+  return `\
+:day0_sunday: | :day1_monday: | :day2_tuesday: | :day3_wednesday: | :day4_thursday: | :day5_friday: | :day6_saturday:
+--- | --- | --- | --- | --- | --- | ---
+${calendarBody}`;
+}
+
+function dateOffset(date: Date, offset: number): Date {
+  const dateMs = date.getTime();
+  const offsetMs = offset * 24 * 60 * 60 * 1000;
+  return new Date(dateMs + offsetMs);
+}
+
+function actualDateOfSchedule(
+  { startDate }: BlogRelayInfo,
+  schedule: Schedule
+): Date {
+  // UNIXタイムスタンプ
+  const startDateParsed = new Date(startDate);
+  // 経過日数のms
+  const offset = schedule.day - 1;
+  return dateOffset(startDateParsed, offset);
+}
+
+function scheduleToStringInCalendar(schedule: Schedule): string {
+  const writerIcons = Array.from(schedule.writer.matchAll(WRITER_REGEXP))
+    .map((match) => `:${match[0]}:`)
+    .join("");
+  return writerIcons;
 }
