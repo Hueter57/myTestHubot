@@ -23,10 +23,10 @@ module.exports = (robot) => {
             pagePath: crowiPagePath,
             token: crowiToken,
         });
+        console.log(body);
         if (body === "") {
             return;
         }
-        console.log(body);
     });
 };
 function getCrowiPageBody({ host, pagePath, token }) {

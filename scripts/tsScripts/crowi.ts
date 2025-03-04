@@ -37,10 +37,10 @@ module.exports = (robot: hubot.Robot): void => {
       pagePath: crowiPagePath,
       token: crowiToken,
     });
+    console.log(body);
     if (body === "") {
       return;
     }
-    console.log(body);
   });
 };
 
@@ -51,7 +51,7 @@ function getCrowiPageBody({ host, pagePath, token }: CrowiInfo): string {
     method: "GET",
   };
   axios(options)
-    .then((res: AxiosResponse<any>) => {
+    .then((res: AxiosResponse<CrowiGetPageResponse>) => {
       const { data, status } = res;
       console.log("status:" + status);
       console.log("data:" + data);
