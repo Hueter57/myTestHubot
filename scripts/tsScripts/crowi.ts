@@ -24,7 +24,7 @@ type CrowiGetPageResponse = {
 };
 
 module.exports = (robot: hubot.Robot): void => {
-  robot.hear(/getCrowi$/i, (res: hubot.Response): void => {
+  robot.hear(/getCrowi$/i, async (res: hubot.Response): Promise<void> => {
     const crowiPagePath = process.env.CROWI_PAGE_PATH;
     const crowiToken = process.env.CROWI_ACCESS_TOKEN;
     if (crowiPagePath === undefined || crowiToken === undefined) {
@@ -32,26 +32,37 @@ module.exports = (robot: hubot.Robot): void => {
       console.log("crowi envs are undefined");
       return;
     }
-    const body = getCrowiPageBody({
-      host: "wiki.trap.jp",
-      pagePath: crowiPagePath,
-      token: crowiToken,
-    });
-    console.log("aaaaaa")
-    console.log(body);
-    if (body === "") {
-      return;
+
+    try {
+      const body = await getCrowiPageBody({
+        host: "wiki.trap.jp",
+        pagePath: crowiPagePath,
+        token: crowiToken,
+      } as CrowiInfo);
+
+      console.log("aaaaaa");
+      console.log(body);
+      if (body !== "") {
+        res.send(body);
+      }
+    } catch (error) {
+      console.error("Error fetching Crowi page:", error);
     }
   });
 };
 
-function getCrowiPageBody({ host, pagePath, token }: CrowiInfo): string {
+async function getCrowiPageBody({
+  host,
+  pagePath,
+  token,
+}: CrowiInfo): Promise<string> {
   const encodedPath = encodeURI(pagePath);
   const options: AxiosRequestConfig = {
     url: `https://${host}/_api/pages.get?access_token=${token}&path=${encodedPath}`,
     method: "GET",
   };
-  axios(options)
+  var body: string = "";
+  await axios(options)
     .then((res: AxiosResponse<CrowiGetPageResponse>) => {
       const { data, status } = res;
       console.log("status:" + status);
@@ -60,15 +71,13 @@ function getCrowiPageBody({ host, pagePath, token }: CrowiInfo): string {
       console.log(data.page);
       console.log(data);
       if (data.ok) {
-        return data.page.revision.body as string;
+        body = data.page.revision.body as string;
       } else {
         console.log("data.ok is false");
-        return "";
       }
     })
     .catch((e: AxiosError<{ error: string }>) => {
       console.log(e.message);
-      return "";
     });
-  return "";
+    return body;
 }
