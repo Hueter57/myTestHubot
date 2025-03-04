@@ -3,9 +3,12 @@
 //
 // Commands:
 //
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const WRITER_REGEXP = /@[a-zA-Z0-9_-]+/g;
-const axios = require("axios");
+const axios_1 = __importDefault(require("axios"));
 module.exports = (robot) => {
     robot.hear(/getCrowi$/i, async (res) => {
         const crowiPagePath = process.env.CROWI_PAGE_PATH;
@@ -20,13 +23,17 @@ module.exports = (robot) => {
             pagePath: crowiPagePath,
             token: crowiToken,
         });
+        res.send(body);
         console.log(body);
     });
 };
 function getCrowiPageBody({ host, pagePath, token }) {
     const encodedPath = encodeURI(pagePath);
-    const url = `https://${host}/_api/pages.get?access_token=${token}&path=${encodedPath}`;
-    const res = axios.get(url);
+    const options = {
+        url: `https://${host}/_api/pages.get?access_token=${token}&path=${encodedPath}`,
+        method: "GET",
+    };
+    const res = axios_1.default.get(op);
     // const payload = JSON.parse(res.getContentText());
     // eslint-disable-next-line @typescript-eslint/dot-notation
     return res;
