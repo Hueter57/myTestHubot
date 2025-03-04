@@ -23,7 +23,7 @@ module.exports = (robot) => {
             pagePath: crowiPagePath,
             token: crowiToken,
         });
-        res.send(body);
+        // res.send(body);
         console.log(body);
     });
 };
