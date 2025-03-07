@@ -50,15 +50,35 @@ module.exports = (robot: hubot.Robot): void => {
         res.send("too meny times");
         return;
       }
+
       task = corn.schedule(
         "* * * * * *",
         () => {
-          res.send(times.toString());
-          times--;
-          if (times === 0) {
+          if (times > 0) {
+            res.send(times.toString());
+            times--;
+          } else {
             res.send(":explosion.wiggle:");
             task.stop();
+            task.destroy();
           }
+        },
+        {
+          Scheduled: true,
+          timezone: "Asia/Tokyo",
+        }
+      );
+      const now = new Date();
+      now.setSeconds(now.getSeconds() + times);
+      const second = now.getSeconds()
+      const minute = now.getMinutes()
+      const hour = now.getHours()
+      const day = now.getDay()
+      const month = now.getMonth() + 1
+      const stopTask = corn.schedule(
+        second + " " + minute + " " + hour + " " + day + " " + month + " *",
+        () =>{
+          task.stop();
         },
         {
           Scheduled: true,
