@@ -61,7 +61,9 @@ module.exports = (robot: hubot.Robot): void => {
             res.send(":explosion.wiggle:");
             task.stop();
             task.destroy();
+            times--;
           }
+          console.log(times);
         },
         {
           Scheduled: true,
@@ -70,6 +72,7 @@ module.exports = (robot: hubot.Robot): void => {
       );
       const now = new Date();
       now.setSeconds(now.getSeconds() + times);
+      console.log(now);
       const second = now.getSeconds();
       const minute = now.getMinutes();
       const hour = now.getHours();
