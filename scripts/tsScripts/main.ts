@@ -72,13 +72,14 @@ module.exports = (robot: hubot.Robot): void => {
       );
       const now = new Date();
       now.setSeconds(now.getSeconds() + times);
-      now.setHours(now.getHours() + times);
+      now.setHours(now.getHours() + 9);
       console.log(now);
       const second = now.getSeconds();
       const minute = now.getMinutes();
       const hour = now.getHours();
       const day = now.getDay();
       const month = now.getMonth() + 1;
+      console.log(second + " " + minute + " " + hour + " " + day + " " + month + " *");
       const stopTask = corn.schedule(
         second + " " + minute + " " + hour + " " + day + " " + month + " *",
         () => {
