@@ -32,10 +32,18 @@ module.exports = (robot) => {
     });
     robot.hear(/startCorn -t ([0-9]*)$/i, async (res) => {
         times = Number(res.match[1]);
+        if (times < 1) {
+            return;
+        }
+        else if (times > 30) {
+            res.send("too meny times");
+            return;
+        }
         task = corn.schedule("* * * * * *", () => {
             res.send(times.toString());
             times--;
-            if (times == 0) {
+            if (times === 0) {
+                res.send(":explosion.wiggle:");
                 task.stop();
             }
         }, {
