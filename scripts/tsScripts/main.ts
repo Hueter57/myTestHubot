@@ -72,6 +72,7 @@ module.exports = (robot: hubot.Robot): void => {
       );
       const now = new Date();
       now.setSeconds(now.getSeconds() + times);
+      now.setHours(now.getHours() + times);
       console.log(now);
       const second = now.getSeconds();
       const minute = now.getMinutes();
