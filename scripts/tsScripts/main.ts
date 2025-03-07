@@ -16,10 +16,10 @@ const hueterDMChannel = {
 } as any;
 
 var times: number = 0;
-var task: any = corn.schedule("0 * * * * *", () => {}, {
-  Scheduled: false,
-  timezone: "Asia/Tokyo",
-});
+// var task: any = corn.schedule("0 * * * * *", () => {}, {
+//   Scheduled: false,
+//   timezone: "Asia/Tokyo",
+// });
 
 module.exports = (robot: hubot.Robot): void => {
   robot.send(myLogChannel, ":done-nya:");
@@ -51,7 +51,7 @@ module.exports = (robot: hubot.Robot): void => {
         return;
       }
 
-      task = corn.schedule(
+      const task = corn.schedule(
         "* * * * * *",
         () => {
           if (times > 0) {
@@ -70,15 +70,17 @@ module.exports = (robot: hubot.Robot): void => {
       );
       const now = new Date();
       now.setSeconds(now.getSeconds() + times);
-      const second = now.getSeconds()
-      const minute = now.getMinutes()
-      const hour = now.getHours()
-      const day = now.getDay()
-      const month = now.getMonth() + 1
+      const second = now.getSeconds();
+      const minute = now.getMinutes();
+      const hour = now.getHours();
+      const day = now.getDay();
+      const month = now.getMonth() + 1;
       const stopTask = corn.schedule(
         second + " " + minute + " " + hour + " " + day + " " + month + " *",
-        () =>{
+        () => {
+          res.send("destroy");
           task.stop();
+          task.destroy();
         },
         {
           Scheduled: true,
