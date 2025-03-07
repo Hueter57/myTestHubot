@@ -11,6 +11,11 @@ const myLogChannel = {
 const hueterDMChannel = {
     userID: "236fe853-f208-477b-9f1f-0f42fe614d3b",
 };
+var times = 0;
+var task = corn.schedule("0 * * * * *", () => { }, {
+    Scheduled: false,
+    timezone: "Asia/Tokyo",
+});
 module.exports = (robot) => {
     robot.send(myLogChannel, ":done-nya:");
     robot.hear(/send_Hueter$/, async (res) => {
@@ -25,10 +30,23 @@ module.exports = (robot) => {
     robot.hear(/getRobot$/i, async (res) => {
         console.log(robot);
     });
+    robot.hear(/startCorn -t ([0-9]*)$/i, async (res) => {
+        times = Number(res.match[1]);
+        task = corn.schedule("* * * * * *", () => {
+            res.send(times.toString());
+            times--;
+            if (times == 0) {
+                task.stop();
+            }
+        }, {
+            Scheduled: true,
+            timezone: "Asia/Tokyo",
+        });
+    });
     corn.schedule("0 0 7,12,18 * * *", () => {
         robot.send(myLogChannel, ":3kaimitarashinu_beksinski_1:");
     }, {
         Scheduled: true,
-        timezone: "Asia/Tokyo"
+        timezone: "Asia/Tokyo",
     });
 };
