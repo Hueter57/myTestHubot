@@ -46,7 +46,6 @@ module.exports = (robot) => {
             }
             else {
                 res.send(":explosion.wiggle:");
-                task.stop();
                 task.destroy();
                 times--;
             }
@@ -62,7 +61,7 @@ module.exports = (robot) => {
         const second = now.getSeconds();
         const minute = now.getMinutes();
         const hour = now.getHours();
-        const day = now.getDay();
+        const day = now.getDate();
         const month = now.getMonth() + 1;
         console.log(second + " " + minute + " " + hour + " " + day + " " + month + " *");
         const stopTask = corn.schedule(second + " " + minute + " " + hour + " " + day + " " + month + " *", () => {
