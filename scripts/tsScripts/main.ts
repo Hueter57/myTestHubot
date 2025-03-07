@@ -26,35 +26,14 @@ module.exports = (robot: hubot.Robot): void => {
     robot.send(myLogChannel, ":good-nya:");
   });
 
-  robot.hear(/stamp2/, async (res: hubot.Response): Promise<void> => {
-    res.send({
-      type: "stamp",
-      name: "done-nya",
-    } as any);
-    robot.send(myLogChannel, ":good-nya:");
-  });
-  robot.hear(/stamps/, async (res: hubot.Response): Promise<void> => {
-    res.send(
-      {
-        type: "stamp",
-        name: "done-nya",
-      } as any,
-      {
-        type: "stamp",
-        name: "doya-nya",
-      } as any,
-      {
-        type: "stamp",
-        name: "hyun-nya",
-      } as any
-    );
-  });
-  robot.hear(/pu/, async (res: hubot.Response): Promise<void> => {
-    res.send({
-      type: "stamp",
-      name: "pu",
-    } as any);
-  });
+  robot.hear(/getRes$/i, async (res: hubot.Response): Promise<void> => {
+    console.log(res);
+  })
+
+  robot.hear(/getRobot$/i, async (res: hubot.Response): Promise<void> => {
+    console.log(robot);
+  })
+
 
   corn.schedule("0 0 7,12,18 * * *", () => {
     robot.send(myLogChannel, ":3kaimitarashinu_beksinski_1:");

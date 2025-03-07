@@ -1,5 +1,5 @@
 // Type definitions for hubot
-// Definitions by: nyanchu
+// Definitions by: Hueter
 
 declare module "hubot" {
   export interface Robot {
@@ -21,15 +21,34 @@ declare module "hubot" {
     send(user: string, ...string: string[]): void;
     reply(user: string, ...string: string[]): void;
   }
-  
+
   export interface Response {
     match: [string, string, { index: number }, { input: string }];
 
     message: {
+      id: string;
+      user: {
+        id: string;
+        name: string;
+        displayName: string;
+        iconID: string;
+        bot: boolean;
+      };
       room: {
-        type: string,
-        id: string
-      }
+        type: string;
+        id: string;
+      };
+      text: string;
+      plainText: string;
+      embedded: [
+        {
+          raw: string;
+          type: string;
+          id: string;
+        }
+      ];
+      createdAt: Date;
+      updatedAt: Date;
     };
 
     send(...strings: string[]): void;

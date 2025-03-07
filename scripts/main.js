@@ -19,30 +19,11 @@ module.exports = (robot) => {
     robot.respond(/send$/i, async (res) => {
         robot.send(myLogChannel, ":good-nya:");
     });
-    robot.hear(/stamp2/, async (res) => {
-        res.send({
-            type: "stamp",
-            name: "done-nya",
-        });
-        robot.send(myLogChannel, ":good-nya:");
+    robot.hear(/getRes$/i, async (res) => {
+        console.log(res);
     });
-    robot.hear(/stamps/, async (res) => {
-        res.send({
-            type: "stamp",
-            name: "done-nya",
-        }, {
-            type: "stamp",
-            name: "doya-nya",
-        }, {
-            type: "stamp",
-            name: "hyun-nya",
-        });
-    });
-    robot.hear(/pu/, async (res) => {
-        res.send({
-            type: "stamp",
-            name: "pu",
-        });
+    robot.hear(/getRobot$/i, async (res) => {
+        console.log(robot);
     });
     corn.schedule("0 0 7,12,18 * * *", () => {
         robot.send(myLogChannel, ":3kaimitarashinu_beksinski_1:");
