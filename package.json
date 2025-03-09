@@ -8,6 +8,7 @@
     "@traptitech/traq": "^3.21.0-0",
     "@types/hubot": "^3.3.0",
     "axios": "^1.7.9",
+    "date-fns": "^4.1.0",
     "hubot": "^11.0.0",
     "hubot-traq": "^2.0.0",
     "node-cron": "^3.0.3",

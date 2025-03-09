@@ -58,11 +58,7 @@ module.exports = (robot: hubot.Robot): void => {
     const { crowi, traQ, blogRelay, noticeMessage } = v;
 
     try {
-      const pageBody = await getCrowiPageBody({
-        host: "wiki.trap.jp",
-        pagePath: crowi.pagePath,
-        token: crowi.token,
-      } as CrowiInfo);
+      const pageBody = await getCrowiPageBody(crowi);
       if (pageBody === "") {
         console.log("failed get crowi page body");
         res.send("failed get crowi page body");
@@ -75,10 +71,10 @@ module.exports = (robot: hubot.Robot): void => {
           ? getBeforeMessage(blogRelay.title, -dateDiff)
           : getDuringMessage(blogRelay.title, dateDiff, schedules);
 
-      res.send(myLogChannel, messageHead + noticeMessage);
+      // res.send(myLogChannel, messageHead + noticeMessage);
       console.log(messageHead + noticeMessage);
       const logMessage = schedulesToCalendar(blogRelay, schedules);
-      res.send(myLogChannel, logMessage);
+      // res.send(myLogChannel, logMessage);
       console.log(logMessage);
     } catch (error) {
       console.error("Error fetching Crowi page:", error);
@@ -180,10 +176,15 @@ async function getCrowiPageBody({
   return body;
 }
 
+import { parse } from "date-fns/fp";
 // START_DATEとの差分を取得する
 // now - date
 function calcDateDiff({ startDate }: BlogRelayInfo): number {
   const date = new Date(startDate);
+  console.log("startDate", date);
+  const parseString = parse(new Date(), "yyyy-MM-ddTHH:mm:ss+09:00");
+  const date_ = parseString(startDate);
+  console.log("startDate2", date_);
   const dateUtcTime = date.getTime() + date.getTimezoneOffset() * 60 * 1000;
   const now = new Date();
   const nowUtcTime = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
