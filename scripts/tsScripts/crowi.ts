@@ -176,15 +176,12 @@ async function getCrowiPageBody({
   return body;
 }
 
-import { parse } from "date-fns/fp";
 // START_DATEとの差分を取得する
 // now - date
 function calcDateDiff({ startDate }: BlogRelayInfo): number {
   const date = new Date(startDate);
   console.log("startDate", date);
-  const parseString = parse(new Date(), "yyyy-MM-ddTHH:mm:ss+09:00");
-  const date_ = parseString(startDate);
-  console.log("startDate2", date_);
+  console.log("day", date.getDay(), "month", date.getMonth(), "hour", date.getHours(), "minute", date.getMinutes());
   const dateUtcTime = date.getTime() + date.getTimezoneOffset() * 60 * 1000;
   const now = new Date();
   const nowUtcTime = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
