@@ -22,11 +22,7 @@ module.exports = (robot) => {
         }
         const { crowi, traQ, blogRelay, noticeMessage } = v;
         try {
-            const pageBody = await getCrowiPageBody({
-                host: "wiki.trap.jp",
-                pagePath: crowi.pagePath,
-                token: crowi.token,
-            });
+            const pageBody = await getCrowiPageBody(crowi);
             if (pageBody === "") {
                 console.log("failed get crowi page body");
                 res.send("failed get crowi page body");
@@ -37,10 +33,10 @@ module.exports = (robot) => {
             const messageHead = dateDiff < 0
                 ? getBeforeMessage(blogRelay.title, -dateDiff)
                 : getDuringMessage(blogRelay.title, dateDiff, schedules);
-            res.send(myLogChannel, messageHead + noticeMessage);
+            // res.send(myLogChannel, messageHead + noticeMessage);
             console.log(messageHead + noticeMessage);
             const logMessage = schedulesToCalendar(blogRelay, schedules);
-            res.send(myLogChannel, logMessage);
+            // res.send(myLogChannel, logMessage);
             console.log(logMessage);
         }
         catch (error) {
@@ -131,10 +127,15 @@ async function getCrowiPageBody({ host, pagePath, token, }) {
     });
     return body;
 }
+const fp_1 = require("date-fns/fp");
 // START_DATEとの差分を取得する
 // now - date
 function calcDateDiff({ startDate }) {
     const date = new Date(startDate);
+    console.log("startDate", date);
+    const parseString = (0, fp_1.parse)(new Date(), "yyyy-MM-ddTHH:mm:ss+09:00");
+    const date_ = parseString(startDate);
+    console.log("startDate2", date_);
     const dateUtcTime = date.getTime() + date.getTimezoneOffset() * 60 * 1000;
     const now = new Date();
     const nowUtcTime = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
