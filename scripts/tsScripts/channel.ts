@@ -121,13 +121,14 @@ name: ${response.data.name}`);
     let name: string[] = [];
     try {
       for (let i = 0; i < 5; i++) {
-        api.getChannel(id).then((response) => {
-          name.unshift(response.data.name);
-          if (response.data.parentId === null) {
-            res.send(`#${name.join("/")}`);
-            return;
-          }
-        });
+        const response = await api.getChannel(id);
+        name.unshift(response.data.name);
+        if (response.data.parentId === null) {
+          res.send(`#${name.join("/")}`);
+          return;
+        } else {
+          id = response.data.parentId;
+        }
       }
     } catch (error) {
       res.send("error");
