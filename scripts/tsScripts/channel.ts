@@ -101,7 +101,7 @@ name: ${response.data.name}`);
       console.error(error);
     }
   });
-  robot.hear(/getChannel$/i, async (res: hubot.Response) => {
+  robot.hear(/getChannel (.*)$/i, async (res: hubot.Response) => {
     const id = res.match[1];
     try {
       api.getChannel(id).then((response) => {
