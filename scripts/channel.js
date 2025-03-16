@@ -102,4 +102,23 @@ name: ${response.data.name}`);
             console.error(error);
         }
     });
+    robot.hear(/getChannelName (.*)$/i, async (res) => {
+        let id = res.match[1];
+        let name = [];
+        try {
+            for (let i = 0; i < 5; i++) {
+                api.getChannel(id).then((response) => {
+                    name.unshift(response.data.name);
+                    if (response.data.parentId === null) {
+                        res.send(`#${name.join("/")}`);
+                        return;
+                    }
+                });
+            }
+        }
+        catch (error) {
+            res.send("error");
+            console.error(error);
+        }
+    });
 };
