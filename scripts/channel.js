@@ -87,7 +87,7 @@ name: ${response.data.name}`);
             console.error(error);
         }
     });
-    robot.hear(/getChannel$/i, async (res) => {
+    robot.hear(/getChannel (.*)$/i, async (res) => {
         const id = res.match[1];
         try {
             api.getChannel(id).then((response) => {
