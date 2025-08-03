@@ -17,7 +17,7 @@ var times = 0;
 //   timezone: "Asia/Tokyo",
 // });
 module.exports = (robot) => {
-    robot.send(myLogChannel, ":done-nya:");
+    robot.send(hueterDMChannel, ":done-nya:");
     robot.hear(/send_Hueter$/, async (res) => {
         robot.send(hueterDMChannel, ":choo-choo-train-nya:");
     });

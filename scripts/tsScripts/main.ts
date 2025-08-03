@@ -22,7 +22,7 @@ var times: number = 0;
 // });
 
 module.exports = (robot: hubot.Robot): void => {
-  robot.send(myLogChannel, ":done-nya:");
+  robot.send(hueterDMChannel, ":done-nya:");
 
   robot.hear(/send_Hueter$/, async (res: hubot.Response): Promise<void> => {
     robot.send(hueterDMChannel, ":choo-choo-train-nya:");
