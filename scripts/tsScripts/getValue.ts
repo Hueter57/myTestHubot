@@ -13,9 +13,9 @@ module.exports = (robot: hubot.Robot): void => {
   });
 
   robot.hear(/getValues ([^,]+),([^,]+)$/i, async (res: hubot.Response): Promise<void> => {
-    const value = res.match.join(", ").split(", ");
-    const num = res.match[2];
-    const input = res.match[3];
-    res.send(`value : ${value} value1 : ${res.match[1]} index: ${num} input: ${input}`);
+    const value = res.match[0];
+    const value1 = res.match[1];
+    const value2 = res.match[2];
+    res.send(`value : ${value} value1 : ${value1} value2 : ${value2}`);
   });
 }
