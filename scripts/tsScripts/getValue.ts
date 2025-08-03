@@ -9,15 +9,15 @@ import hubot from "hubot";
 module.exports = (robot: hubot.Robot): void => {
   robot.hear(/getValue (.+)$/i, async (res: hubot.Response): Promise<void> => {
     const value = res.match.join(", ");
-    const num = res.match[2].index;
+    const num = res.match[2];
     const input = res.match[3];
     res.send(`value : ${value}, index: ${num}, input: ${input}`);
   });
 
   robot.hear(/getValues ([^,]+),([^,]+)$/i, async (res: hubot.Response): Promise<void> => {
-    const value = res.match.join(", ");
-    const num = res.match[2].index;
+    const value = res.match.join(", ").split(", ");
+    const num = res.match[2];
     const input = res.match[3];
-    res.send(`value : ${value}, index: ${num}, input: ${input}`);
+    res.send(`value : ${value} value1 : ${res.match[1]} index: ${num} input: ${input}`);
   });
 }
